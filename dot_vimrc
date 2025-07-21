@@ -1,0 +1,9 @@
+call plug#begin()
+
+Plug 'tpope/vim-sensible'
+Plug 'devsjc/vim-jb'
+
+call plug#end()
+
+colorscheme jb
+set mouse=a
