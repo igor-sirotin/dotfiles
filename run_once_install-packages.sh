@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Install brew packages
-brew install lsd tree vivid 
+brew install lsd tree vivid stats
 brew install --cask font-jetbrains-mono-nerd-font
 
 # Configure Vim

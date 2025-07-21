@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Battery_state</key>
+	<false/>
+	<key>CPU_mini_alignment</key>
+	<string>right</string>
+	<key>CPU_mini_color</key>
+	<string>utilization</string>
+	<key>Disk_state</key>
+	<false/>
+	<key>GPU_mini_alignment</key>
+	<string>center</string>
+	<key>GPU_mini_color</key>
+	<string>utilization</string>
+	<key>GPU_state</key>
+	<true/>
+	<key>LaunchAtLoginNext</key>
+	<true/>
+	<key>NSNavPanelExpandedSizeForSaveMode</key>
+	<string>{1026, 710}</string>
+	<key>NSNavPanelExpandedStateForSaveMode</key>
+	<true/>
+	<key>NSStatusItem Preferred Position CPU_mini</key>
+	<real>834</real>
+	<key>NSStatusItem Preferred Position GPU_mini</key>
+	<real>787</real>
+	<key>NSStatusItem Preferred Position RAM_mini</key>
+	<real>740</real>
+	<key>NSToolbar Configuration eu.exelban.Stats.Settings.Toolbar</key>
+	<dict>
+		<key>TB Display Mode</key>
+		<integer>1</integer>
+		<key>TB Icon Size Mode</key>
+		<integer>1</integer>
+		<key>TB Is Shown</key>
+		<true/>
+		<key>TB Size Mode</key>
+		<integer>1</integer>
+	</dict>
+	<key>NSWindow Frame NSNavPanelAutosaveName</key>
+	<string>960 712 1026 710 0 0 3008 1667 </string>
+	<key>Network_state</key>
+	<false/>
+	<key>RAM_barChart_position</key>
+	<integer>3</integer>
+	<key>RAM_label_position</key>
+	<integer>2</integer>
+	<key>RAM_lineChart_position</key>
+	<integer>1</integer>
+	<key>RAM_memory_position</key>
+	<integer>5</integer>
+	<key>RAM_mini_alignment</key>
+	<string>left</string>
+	<key>RAM_mini_color</key>
+	<string>pressure</string>
+	<key>RAM_mini_label</key>
+	<true/>
+	<key>RAM_mini_position</key>
+	<integer>0</integer>
+	<key>RAM_pieChart_position</key>
+	<integer>4</integer>
+	<key>RAM_tachometer_position</key>
+	<integer>6</integer>
+	<key>RAM_text_position</key>
+	<integer>7</integer>
+	<key>RAM_widget</key>
+	<string>mini</string>
+	<key>dockIcon</key>
+	<false/>
+	<key>runAtLoginInitialized</key>
+	<true/>
+	<key>setupProcess</key>
+	<true/>
+	<key>support_ts</key>
+	<integer>1753109893</integer>
+	<key>temperature_units</key>
+	<string>system</string>
+	<key>updater_check_ts</key>
+	<integer>1753109839</integer>
+	<key>version</key>
+	<string>2.11.48</string>
+</dict>
+</plist>
