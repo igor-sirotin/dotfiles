@@ -3,7 +3,7 @@
 ## Setup on a new machine
 
 ```
-brew insatll chezmoi
+brew install chezmoi
 chezmoi init --apply --verbose igor-sirotin
 ```
 
@@ -20,6 +20,6 @@ chezmoi apply
 `keyring` is used to manage secrets, this corresponds to `keychain` on macOS.
 To add/modify a secret, use:
 ```
-chezmoi secret set --service <sevice> --user <user>
+chezmoi secret keyring :set --service <service> --user <user>
 chezmoi apply
 ```
