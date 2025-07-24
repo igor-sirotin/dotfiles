@@ -35,6 +35,7 @@ symbol = "🐳  "
 format = "[](fg:black bg:#eb9606)[ $symbol$context]($style)[](fg:#eb9606)"
 
 [git_branch]
+symbol = " "
 style = "#d8712c"
 format = "[](fg:black bg:$style)[$symbol$branch](fg:black bg:$style)[](fg:$style)"
 
@@ -51,7 +52,7 @@ style = "#d8712c"
 format = "(\b[ ](bg:$style fg:black)$conflicted$staged$modified$renamed$deleted$untracked$stashed$ahead_behind[](fg:$style))"
 conflicted = "[ ](bold fg:88 bg:#d8712c)[  ${count} ](fg:black bg:#d8712c)"
 staged = "[ $count ](fg:black bg:#d8712c)"
-modified = "[ ${count} ](fg:black bg:#d8712c)"
+modified = "[ ${count} ](fg:black bg:#d8712c)"
 renamed = "[ ${count} ](fg:black bg:#d8712c)"
 deleted = "[ ${count} ](fg:black bg:#d8712c)"
 untracked = "[?${count} ](fg:black bg:#d8712c)"
@@ -61,9 +62,9 @@ behind = "[ ${count} ](fg:black bg:#d8712c)"
 diverged = "[ ](fg:88 bg:#d8712c)[ נּ ](fg:black bg:#d8712c)[ ${ahead_count} ](fg:black bg:#d8712c)[ ${behind_count} ](fg:black bg:#d8712c)"
 
 [golang]
-symbol = "ﳑ "
+symbol = ""
 style = "fg:black bg:#eb9606"
-format = "[](fg:black bg:#eb9606)[ $symbol$version]($style)[](fg:#eb9606)"
+format = "[](fg:black bg:#eb9606)[ $symbol$version]($style)[](fg:#eb9606)"
 
 [helm]
 style = "fg:black bg:#eb9606"
@@ -101,13 +102,14 @@ format = "[](fg:black bg:#eb9606)[$symbol$version]($style)[](fg:#eb9606)"
 disabled = true
 
 [php]
+symbol = " "
 style = "fg:black bg:#eb9606"
-format = "[](fg:black bg:#eb9606)[ $symbol$version]($style)[](fg:#eb9606)"
+format = "[](fg:black bg:#eb9606)[$symbol$version]($style)[](fg:#eb9606)"
 
 [python]
-symbol = " "
+symbol = "🐍 "
 style = "fg:black bg:#eb9606"
-format = "[](fg:black bg:#eb9606)[ $symbol$pyenv_prefix$version$virtualenv]($style)[](fg:#eb9606)"
+format = "[](fg:black bg:#eb9606)[$symbol$pyenv_prefix$version$virtualenv]($style)[](fg:#eb9606)"
 
 [ruby]
 symbol = " "
