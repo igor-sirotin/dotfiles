@@ -2,4 +2,9 @@ for file in ~/.zshrc.d/*; do
     source "$file"
 done
 
+if type brew &>/dev/null; then
+    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
 
+    autoload -Uz compinit
+    compinit
+fi
