@@ -20,6 +20,6 @@ chezmoi apply
 `keyring` is used to manage secrets, this corresponds to `keychain` on macOS.
 To add/modify a secret, use:
 ```
-chezmoi secret keyring :set --service <service> --user <user>
+chezmoi secret keyring set --service <service> --user <user>
 chezmoi apply
 ```
