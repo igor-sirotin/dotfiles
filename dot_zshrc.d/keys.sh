@@ -15,8 +15,8 @@ bindkey "^[[B" down-line-or-beginning-search
 # Option+Left/Right Arrow for IDE-Like Word Navigation
 function ide-word-move() {
   local direction=$1  # -1 for backward, 1 for forward
-  local word_chars="[a-zA-Z0-9]"
-  local non_word_chars="[^a-zA-Z0-9]"
+  local word_chars="[a-zA-Z0-9\/\\]"
+  local non_word_chars="[^a-zA-Z0-9\/\\]"
   local buffer_length=${#BUFFER}
   
   # Boundary checks - only return if we can't move in the requested direction
