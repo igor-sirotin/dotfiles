@@ -4,6 +4,7 @@
 brew install lsd tree vivid stats
 brew install --cask font-jetbrains-mono-nerd-font
 brew install --cask alt-tab
+brew install zsh-autosuggestions
 
 brew install zsh-completions
 chmod go-w '/opt/homebrew/share'
