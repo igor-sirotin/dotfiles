@@ -1,16 +1,17 @@
-for file in ~/.zshrc.d/*; do
+for file in ~/.zshrc.d/*.sh(N); do
     source "$file"
 done
 
+# Build fpath first, then run compinit exactly once — it is the slowest part of
+# zsh startup, and anything appended to fpath after it runs is not picked up.
 if type brew &>/dev/null; then
-    FPATH=$(brew --prefix)/share/zsh-completions:$FPATH
-
-    autoload -Uz compinit
-    compinit
+    fpath=("$(brew --prefix)/share/zsh-completions" $fpath)
 fi
 
-# The following lines have been added by Docker Desktop to enable Docker CLI completions.
-fpath=(/Users/sirotin/.docker/completions $fpath)
+# Docker Desktop CLI completions.
+if [[ -d "$HOME/.docker/completions" ]]; then
+    fpath=("$HOME/.docker/completions" $fpath)
+fi
+
 autoload -Uz compinit
 compinit
-# End of Docker CLI completions

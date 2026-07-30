@@ -1,0 +1,3 @@
+# Claude Code worktrees — chezmoi already ignores dot-prefixed source entries,
+# this keeps them out of git too.
+/.claude/
