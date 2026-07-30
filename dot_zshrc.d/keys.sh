@@ -71,8 +71,3 @@ bindkey '^[^[[C' forward-ide-word   # Option+Right Arrow
 # Fn+Left/Right Arrow (or Cmd+Arrow) to Go to Start/End of Line
 bindkey "^[[H" beginning-of-line
 bindkey "^[[F" end-of-line
-
-# Skip Duplicate Commands in History
-setopt hist_ignore_dups       # Ignore adjacent duplicates
-setopt hist_ignore_all_dups   # Remove all duplicates from history
-setopt hist_find_no_dups      # Skip duplicates during search
