@@ -1,22 +1,20 @@
 #!/bin/sh
 
-# History Search by Start of Line (↑ / ↓)
-bindkey "^[[A" history-beginning-search-backward  # Up Arrow
-bindkey "^[[B" history-beginning-search-forward   # Down Arrow
-
-# Cursor Moves to End of Input on History Search
+# History Search by Start of Line (↑ / ↓), leaving the cursor at end of input
 autoload -U up-line-or-beginning-search
 autoload -U down-line-or-beginning-search
 zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
-bindkey "^[[A" up-line-or-beginning-search
-bindkey "^[[B" down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search    # Up Arrow
+bindkey "^[[B" down-line-or-beginning-search  # Down Arrow
 
 # Option+Left/Right Arrow for IDE-Like Word Navigation
 function ide-word-move() {
   local direction=$1  # -1 for backward, 1 for forward
-  local word_chars="[a-zA-Z0-9\/\\]"
-  local non_word_chars="[^a-zA-Z0-9\/\\]"
+  # Stop at path separators, dots and hyphens the way an IDE does. Previously
+  # / and \ were listed as word characters, so a jump skipped whole paths.
+  local word_chars="[a-zA-Z0-9_]"
+  local non_word_chars="[^a-zA-Z0-9_]"
   local buffer_length=${#BUFFER}
   
   # Boundary checks - only return if we can't move in the requested direction
