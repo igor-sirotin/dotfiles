@@ -63,8 +63,30 @@ function forward-ide-word() {
 
 zle -N backward-ide-word
 zle -N forward-ide-word
-bindkey '^[^[[D' backward-ide-word  # Option+Left Arrow
-bindkey '^[^[[C' forward-ide-word   # Option+Right Arrow
+
+# Terminals disagree on what Option+Arrow actually sends, so bind every common
+# encoding rather than assuming one. Binding only ^[^[[D means that under
+# iTerm2's "Natural Text Editing" preset (which sends ^[b / ^[f) the keys fall
+# through to zsh's builtin backward-word/forward-word instead, and those skip
+# whole paths.
+#
+#   ^[^[[D  / ^[^[[C   iTerm2 with Left Option = "Esc+"
+#   ^[b     / ^[f      iTerm2 "Natural Text Editing" preset, Terminal.app
+#   ^[[1;3D / ^[[1;3C  xterm-style Alt+Arrow (also tmux, VS Code, Ghostty)
+#   ^[[1;9D / ^[[1;9C  iTerm2 meta-style Alt+Arrow
+for _ide_key in '^[^[[D' '^[b' '^[[1;3D' '^[[1;9D'; do
+  bindkey "$_ide_key" backward-ide-word  # Option+Left Arrow
+done
+for _ide_key in '^[^[[C' '^[f' '^[[1;3C' '^[[1;9C'; do
+  bindkey "$_ide_key" forward-ide-word   # Option+Right Arrow
+done
+unset _ide_key
+
+# Keep zsh's builtin word widgets in step with ide-word-move above. WORDCHARS
+# lists the non-alphanumeric characters that still count as part of a word, and
+# it defaults to *?_-.[]~=/&;!#$%^(){}<> — including `/`, so Option+Delete would
+# otherwise wipe an entire path. `_` alone matches the widget's [a-zA-Z0-9_].
+WORDCHARS='_'
 
 # Fn+Left/Right Arrow (or Cmd+Arrow) to Go to Start/End of Line
 bindkey "^[[H" beginning-of-line
