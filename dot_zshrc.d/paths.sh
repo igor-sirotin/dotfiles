@@ -4,6 +4,9 @@ export PATH="/opt/homebrew/sbin:$PATH"
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.nimble/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
+export PATH="$HOME/sirotin/.local/logoscore/bin:$PATH"
+export PATH="$HOME/sirotin/.local/lgpm/bin:$PATH"
+export PATH="$HOME/sirotin/.local/lgpd/bin:$PATH"
 
 # Nix
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
