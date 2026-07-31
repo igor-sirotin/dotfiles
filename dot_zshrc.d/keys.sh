@@ -15,8 +15,11 @@ bindkey "^[[B" down-line-or-beginning-search
 # Option+Left/Right Arrow for IDE-Like Word Navigation
 function ide-word-move() {
   local direction=$1  # -1 for backward, 1 for forward
-  local word_chars="[a-zA-Z0-9\/\\]"
-  local non_word_chars="[^a-zA-Z0-9\/\\]"
+  # `/` is deliberately NOT a word character, so option+arrow stops at every
+  # segment of a path instead of jumping over the whole thing. Backslash stays
+  # a word character (escaped characters inside paths).
+  local word_chars='[a-zA-Z0-9\\]'
+  local non_word_chars='[^a-zA-Z0-9\\]'
   local buffer_length=${#BUFFER}
   
   # Boundary checks - only return if we can't move in the requested direction
