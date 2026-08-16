@@ -1,7 +1,19 @@
 # https://starship.rs/config/
 # fredericrous
 
-command_timeout = 1000
+# Modules that report a toolchain version do it by *running* that toolchain
+# (`node --version`, `go version`, ...). A cold Homebrew `node` — first terminal
+# after a boot, page cache empty, Gatekeeper re-verifying a ~100MB binary — can
+# take well over a second, which tripped the old 1000ms cap and printed:
+#
+#   [WARN] - (starship::utils): Executing command "/opt/homebrew/bin/node" timed out.
+#
+# Timing out is the worst outcome: the prompt still paid the full wait and then
+# threw the result away. 2000ms lets the cold spawn finish and render.
+#
+# If you would rather have an instantly-drawn prompt than a Node version, the
+# real fix is to not spawn node at all — see [nodejs] below.
+command_timeout = 2000
 right_format = """$time"""
 
 [time]
@@ -93,6 +105,13 @@ disabled = false
 [nodejs]
 style = "green"
 format = "[](fg:black bg:#eb9606)[󰎙 $symbol($version)](fg:black bg:#eb9606)[](fg:#eb9606)"
+# By default this module also fires on a bare *.js/*.ts/*.mjs/... file, so any
+# directory holding one stray script pays for a `node --version` spawn. Limit
+# the trigger to markers that mean "this is actually a Node project"; real
+# projects all have one. Set `disabled = true` here to never spawn node at all.
+detect_extensions = []
+detect_files = ["package.json", ".node-version", ".nvmrc"]
+detect_folders = ["node_modules"]
 
 [ocaml]
 style = "fg:black bg:#eb9606"
