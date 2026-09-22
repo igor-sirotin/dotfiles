@@ -5,8 +5,14 @@
 # never installed on any later apply. Failing loudly makes chezmoi retry instead.
 set -eu
 
+# This is a `before` script so the packages land even when a later step of the
+# same apply fails — a missing keyring secret aborts `private_env.sh.tmpl`, and
+# anything chezmoi had left to do after it (including this script, back when it
+# ran last) never happened. Vim setup is in run_once_after_configure-vim.sh
+# instead, because vim-plug needs ~/.vimrc in place first.
+
 # Install brew packages
-brew install lsd tree vivid stats
+brew install lsd tree vivid stats starship
 brew install --cask font-jetbrains-mono-nerd-font
 brew install --cask alt-tab
 brew install --cask linearmouse
@@ -20,8 +26,3 @@ brew install zsh-completions
 brew_prefix="$(brew --prefix)"
 chmod go-w "$brew_prefix/share"
 chmod -R go-w "$brew_prefix/share/zsh"
-
-# Configure Vim
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-vim +PlugInstall +qall

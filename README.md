@@ -2,10 +2,18 @@
 
 ## Setup on a new machine
 
+Populate the keyring before applying: a secret that is missing aborts the apply
+partway through. `chezmoi secret` does not need an initialised source directory,
+so this works straight after installing chezmoi — see
+[Secrets management](#secrets-management) for the commands.
 ```
 brew install chezmoi
+# set every secret first, see "Secrets management" below
 chezmoi init --apply --verbose igor-sirotin
 ```
+
+If you would rather look up the list of secrets from the repo itself, split it
+into `chezmoi init igor-sirotin`, then the secrets, then `chezmoi apply`.
 
 ## Update dotfiles
 
