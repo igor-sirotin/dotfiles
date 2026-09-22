@@ -57,3 +57,17 @@ To add/modify a secret, use:
 chezmoi secret keyring set --service <service> --user <user>
 chezmoi apply
 ```
+
+A missing secret is a hard error — `chezmoi apply` stops at the first one:
+```
+error calling keyring: status-proxy USER: secret not found in keyring
+```
+So on a new machine, set every secret the templates reference before the first
+apply. To carry them over from an existing machine:
+```
+scripts/export-secrets.sh ~/secrets-restore.sh   # on the old machine
+# copy it across securely, then on the new machine:
+sh ~/secrets-restore.sh && rm -P ~/secrets-restore.sh
+```
+The generated file holds the secrets in plaintext (mode 0600). `scripts/` is in
+`.chezmoiignore`, so none of this is applied to `$HOME`.
