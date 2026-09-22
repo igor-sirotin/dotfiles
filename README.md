@@ -2,10 +2,18 @@
 
 ## Setup on a new machine
 
+Clone first, put the secrets in the keyring, and only then apply — a secret that
+is not in the keyring aborts the apply partway through (see
+[Secrets management](#secrets-management)):
 ```
 brew install chezmoi
-chezmoi init --apply --verbose igor-sirotin
+chezmoi init --verbose igor-sirotin
+# set every secret now, see "Secrets management" below
+chezmoi apply --verbose
 ```
+
+`chezmoi init --apply` in one step works only on a machine whose keyring is
+already populated.
 
 ## Update dotfiles
 
