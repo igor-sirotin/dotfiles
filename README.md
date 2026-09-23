@@ -68,7 +68,7 @@ chezmoi apply
 
 A missing secret is a hard error — `chezmoi apply` stops at the first one:
 ```
-error calling keyring: status-proxy USER: secret not found in keyring
+error calling keyring: linearmouse serialNumber: secret not found in keyring
 ```
 So on a new machine, set every secret the templates reference before the first
 apply. To carry them over from an existing machine:

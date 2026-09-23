@@ -6,13 +6,13 @@
 set -eu
 
 # This is a `before` script so the packages land even when a later step of the
-# same apply fails — a missing keyring secret aborts `private_env.sh.tmpl`, and
+# same apply fails — a missing keyring secret aborts `linearmouse.json.tmpl`, and
 # anything chezmoi had left to do after it (including this script, back when it
 # ran last) never happened. Vim setup is in run_once_after_configure-vim.sh
 # instead, because vim-plug needs ~/.vimrc in place first.
 
 # Install brew packages
-brew install lsd tree vivid stats starship
+brew install lsd tree vivid stats starship direnv
 brew install --cask font-jetbrains-mono-nerd-font
 brew install --cask alt-tab
 brew install --cask linearmouse
