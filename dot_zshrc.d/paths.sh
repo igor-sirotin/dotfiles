@@ -14,6 +14,7 @@ if [ -n "$HOMEBREW_PREFIX" ]; then
 fi
 export PATH="$HOME/go/bin:$PATH"
 export PATH="$HOME/.nimble/bin:$PATH"
+export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
 export PATH="$HOME/.local/logoscore/bin:$PATH"
 export PATH="$HOME/.local/lgpm/bin:$PATH"
