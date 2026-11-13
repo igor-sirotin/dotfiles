@@ -1,0 +1,7 @@
+{{- if eq .chezmoi.os "darwin" -}}
+true
+{{- else if and (lookPath "getent") (output "getent" "passwd" .chezmoi.username | trim | hasSuffix "/zsh") -}}
+true
+{{- else -}}
+false
+{{- end -}}

@@ -1,0 +1,2 @@
+# Debian and Ubuntu ship an empty /etc/zsh/zprofile, so nothing else loads this.
+emulate sh -c '. /etc/profile'

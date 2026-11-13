@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -eu
+
+marker='# dotfiles: load ~/.bashrc.d'
+current=$(mktemp)
+trap 'rm -f "$current"' EXIT
+
+cat >"$current"
+cat "$current"
+if ! grep -qF "$marker" "$current"; then
+    printf '\n%s\nfor f in ~/.bashrc.d/*.sh; do [ -r "$f" ] && . "$f"; done; unset f\n' "$marker"
+fi

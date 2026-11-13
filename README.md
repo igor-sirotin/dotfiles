@@ -2,18 +2,37 @@
 
 ## Setup on a new machine
 
-Populate the keyring before applying: a secret that is missing aborts the apply
-partway through. `chezmoi secret` does not need an initialised source directory,
-so this works straight after installing chezmoi — see
-[Secrets management](#secrets-management) for the commands.
+macOS:
 ```
 brew install chezmoi
-# set every secret first, see "Secrets management" below
 chezmoi init --apply --verbose igor-sirotin
 ```
 
-If you would rather look up the list of secrets from the repo itself, split it
-into `chezmoi init igor-sirotin`, then the secrets, then `chezmoi apply`.
+Linux (Debian/Ubuntu, tested on Ubuntu 24.04; needs `sudo` or root for `apt`):
+```
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin
+~/.local/bin/chezmoi init --apply --verbose igor-sirotin
+```
+
+There are no secrets in this repo and none are needed to apply it. Per-project
+secrets live in `.envrc` files loaded by [direnv](https://direnv.net).
+
+## What each platform gets
+
+| | macOS | Linux |
+|---|---|---|
+| starship prompt, `lsd`, `vivid` colours, direnv, vim, aliases, `PATH` | ✓ | ✓ |
+| zsh config (history, key bindings, completions, autosuggestions) | ✓ | only if zsh is the login shell |
+| GUI apps and their settings (LinearMouse, Stats, AltTab, MonitorControl, fonts) | ✓ | — |
+
+On Linux the dotfiles follow the login shell rather than changing it. With bash
+they leave `~/.bashrc` in place and append one line that loads `~/.bashrc.d/`.
+To switch a machine to the full zsh config:
+```
+sudo apt-get install -y zsh
+sudo chsh -s "$(command -v zsh)" "$USER"
+chezmoi apply
+```
 
 ## Update dotfiles
 
@@ -56,26 +75,3 @@ for i in 1 2 3; do /usr/bin/time -p node --version; done
 ```
 A cold first run of several hundred ms that drops to ~40ms afterwards is normal
 macOS behaviour (page cache + Gatekeeper); a consistently slow one is not.
-
-## Secrets management
-
-`keyring` is used to manage secrets, this corresponds to `keychain` on macOS.
-To add/modify a secret, use:
-```
-chezmoi secret keyring set --service <service> --user <user>
-chezmoi apply
-```
-
-A missing secret is a hard error — `chezmoi apply` stops at the first one:
-```
-error calling keyring: linearmouse serialNumber: secret not found in keyring
-```
-So on a new machine, set every secret the templates reference before the first
-apply. To carry them over from an existing machine:
-```
-scripts/export-secrets.sh ~/secrets-restore.sh   # on the old machine
-# copy it across securely, then on the new machine:
-sh ~/secrets-restore.sh && rm -P ~/secrets-restore.sh
-```
-The generated file holds the secrets in plaintext (mode 0600). `scripts/` is in
-`.chezmoiignore`, so none of this is applied to `$HOME`.

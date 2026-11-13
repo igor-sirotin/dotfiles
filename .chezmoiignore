@@ -1,2 +1,19 @@
 README.md
-scripts
+
+{{ if ne .chezmoi.os "darwin" }}
+.config/linearmouse
+.config/stats
+{{ end }}
+
+{{ if eq (includeTemplate "login-shell-is-zsh" .) "true" }}
+.bashrc
+.bashrc.d
+{{ else }}
+.zshrc
+.zshrc.d
+{{ end }}
+
+{{ if or (ne .chezmoi.os "linux") (ne (includeTemplate "login-shell-is-zsh" .) "true") }}
+.zprofile
+.zshenv
+{{ end }}

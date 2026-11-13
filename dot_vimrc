@@ -5,5 +5,5 @@ Plug 'devsjc/vim-jb'
 
 call plug#end()
 
-colorscheme jb
+silent! colorscheme jb
 set mouse=a
