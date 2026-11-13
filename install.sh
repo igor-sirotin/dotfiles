@@ -1,18 +1,15 @@
 #!/bin/sh
 #
 # Bootstrap these dotfiles on a new machine: install chezmoi if it is missing,
-# then apply the repo. Safe to re-run; a later run pulls and re-applies.
+# then apply the repo. A later run pulls and re-applies; chezmoi asks before it
+# overwrites a file edited on the machine, which needs a terminal.
 #
-# Usage: install.sh [--zsh]
-#   --zsh   Linux only: install zsh and make it the login shell first, so the
-#           full zsh config is applied instead of the bash one.
-#
-# Run it without a clone:
+# Run it without a clone (see usage below for the options):
 #   curl -fsSL https://raw.githubusercontent.com/igor-sirotin/dotfiles/main/install.sh | sh -s -- --zsh
 
 set -eu
 
-repo=igor-sirotin
+owner=igor-sirotin
 
 # To bump: https://github.com/twpayne/chezmoi/releases, chezmoi_<ver>_checksums.txt
 chezmoi_version=2.74.1
@@ -40,19 +37,13 @@ as_root() {
     fi
 }
 
-install_zsh() {
-    command -v apt-get >/dev/null 2>&1 || die "--zsh needs apt-get; install zsh and chsh to it by hand"
-    as_root apt-get update </dev/null
-    as_root env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends zsh </dev/null
-    as_root chsh -s "$(command -v zsh)" "$(id -un)"
-}
-
 install_chezmoi_linux() {
     case "$(uname -m)" in
         x86_64) arch=amd64 sha256=$chezmoi_sha256_amd64 ;;
         aarch64 | arm64) arch=arm64 sha256=$chezmoi_sha256_arm64 ;;
-        *) die "no pinned chezmoi build for $(uname -m)" ;;
+        *) die "no pinned chezmoi build for $(uname -m); install chezmoi by hand and re-run" ;;
     esac
+    command -v curl >/dev/null 2>&1 || die "curl is needed to download chezmoi"
     tmp=$(mktemp -d)
     trap 'rm -rf "$tmp"' EXIT
     curl --proto '=https' --tlsv1.2 -fsSL -o "$tmp/chezmoi.tar.gz" \
@@ -63,8 +54,48 @@ install_chezmoi_linux() {
     install -m 0755 "$tmp/chezmoi" "$HOME/.local/bin/chezmoi"
 }
 
-# The whole script is wrapped in a function so that `curl | sh` has read all of
-# it before anything runs.
+install_chezmoi_darwin() {
+    for dir in /opt/homebrew/bin /usr/local/bin; do
+        if [ -x "$dir/brew" ]; then
+            PATH="$dir:$PATH"
+        fi
+    done
+    command -v brew >/dev/null 2>&1 || die "install Homebrew first: https://brew.sh"
+    brew install chezmoi </dev/null
+}
+
+use_zsh() {
+    if ! command -v zsh >/dev/null 2>&1; then
+        command -v apt-get >/dev/null 2>&1 || die "--zsh needs apt-get; install zsh by hand and re-run"
+        as_root apt-get update </dev/null
+        as_root env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends zsh </dev/null
+    fi
+    zsh_path=$(command -v zsh) || die "zsh is still not on PATH"
+    user=$(id -un)
+    case "$(getent passwd "$user" 2>/dev/null || true)" in
+        *:"$zsh_path") ;;
+        *)
+            as_root chsh -s "$zsh_path" "$user"
+            echo "install.sh: zsh is now the login shell; log out and back in to use it"
+            ;;
+    esac
+}
+
+apply_dotfiles() {
+    tree=$(chezmoi execute-template '{{ .chezmoi.workingTree }}' </dev/null 2>/dev/null || true)
+    if [ -n "$tree" ] && [ -e "$tree/.git" ]; then
+        origin=$(git -C "$tree" config --get remote.origin.url 2>/dev/null || true)
+        case "${origin%.git}" in
+            */"$owner"/dotfiles | *:"$owner"/dotfiles) ;;
+            *) die "$tree already holds another repo (origin: ${origin:-none}); move it away and re-run" ;;
+        esac
+        chezmoi update --init </dev/null
+    else
+        chezmoi init --apply "$owner" </dev/null
+    fi
+}
+
+# Wrapped in a function so `curl | sh` reads it all before running.
 main() {
     want_zsh=0
     for arg in "$@"; do
@@ -74,36 +105,28 @@ main() {
                 usage
                 exit 0
                 ;;
-            *) die "unknown argument '$arg' (usage: install.sh [--zsh])" ;;
+            *)
+                usage >&2
+                exit 2
+                ;;
         esac
     done
 
     os=$(uname -s)
-    if [ "$want_zsh" = 1 ] && [ "$os" = Linux ]; then
-        install_zsh
-    fi
-
     PATH="$HOME/.local/bin:$PATH"
     if ! command -v chezmoi >/dev/null 2>&1; then
         case "$os" in
             Linux) install_chezmoi_linux ;;
-            Darwin)
-                command -v brew >/dev/null 2>&1 || die "install Homebrew first: https://brew.sh"
-                brew install chezmoi </dev/null
-                ;;
+            Darwin) install_chezmoi_darwin ;;
             *) die "unsupported system '$os'" ;;
         esac
     fi
 
-    if [ -d "${XDG_DATA_HOME:-$HOME/.local/share}/chezmoi/.git" ]; then
-        chezmoi update --init </dev/null
-    else
-        chezmoi init --apply "$repo" </dev/null
+    if [ "$want_zsh" = 1 ] && [ "$os" = Linux ]; then
+        use_zsh
     fi
 
-    if [ "$want_zsh" = 1 ] && [ "$os" = Linux ]; then
-        echo "install.sh: zsh is now the login shell; log out and back in to use it"
-    fi
+    apply_dotfiles
 }
 
 main "$@"

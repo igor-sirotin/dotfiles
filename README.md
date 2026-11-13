@@ -16,7 +16,8 @@ curl -fsSL https://raw.githubusercontent.com/igor-sirotin/dotfiles/main/install.
 [`install.sh`](install.sh) installs a pinned, checksummed chezmoi into
 `~/.local/bin` if there is none, then applies this repo. Running it again pulls
 and re-applies. Add `-s -- --zsh` after `sh` to also install zsh and make it the
-login shell, which gets the full zsh config.
+login shell, which gets the full zsh config. It works on macOS too, where it
+installs chezmoi with Homebrew.
 
 There are no secrets in this repo and none are needed to apply it. Per-project
 secrets live in `.envrc` files loaded by [direnv](https://direnv.net).
@@ -32,12 +33,9 @@ secrets live in `.envrc` files loaded by [direnv](https://direnv.net).
 On Linux the dotfiles follow the login shell rather than changing it. The bash
 files are always installed: `~/.bashrc` is left in place and gets one appended
 line that loads `~/.bashrc.d/`. The zsh files are added when zsh is the login
-shell. To switch a machine to the full zsh config, run `install.sh --zsh`, or
-by hand:
+shell. To switch a machine to the full zsh config:
 ```
-sudo apt-get install -y zsh
-sudo chsh -s "$(command -v zsh)" "$USER"
-chezmoi apply
+curl -fsSL https://raw.githubusercontent.com/igor-sirotin/dotfiles/main/install.sh | sh -s -- --zsh
 ```
 
 ## Update dotfiles
