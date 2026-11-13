@@ -8,7 +8,7 @@ brew install chezmoi
 chezmoi init --apply --verbose igor-sirotin
 ```
 
-Linux (tested on Ubuntu 24.04; needs `sudo` or root for `apt`, and without
+Linux (tested on Ubuntu 22.04 and 24.04; needs `sudo` or root for `apt`, and without
 `apt` the packages are skipped):
 ```
 curl -fsSL https://raw.githubusercontent.com/igor-sirotin/dotfiles/main/install.sh | sh
