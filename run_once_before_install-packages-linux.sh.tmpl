@@ -13,6 +13,7 @@ sudo=
 
 $sudo apt-get update
 $sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold \
     ca-certificates curl direnv git lsd tree vim vivid
 {{- if eq (includeTemplate "login-shell-is-zsh" .) "true" }} zsh-autosuggestions{{ end }}
 

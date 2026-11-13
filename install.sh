@@ -68,7 +68,8 @@ use_zsh() {
     if ! command -v zsh >/dev/null 2>&1; then
         command -v apt-get >/dev/null 2>&1 || die "--zsh needs apt-get; install zsh by hand and re-run"
         as_root apt-get update </dev/null
-        as_root env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends zsh </dev/null
+        as_root env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold zsh </dev/null
     fi
     zsh_path=$(command -v zsh) || die "zsh is still not on PATH"
     user=$(id -un)
