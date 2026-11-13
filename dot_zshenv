@@ -1,0 +1,2 @@
+# Stops Ubuntu's /etc/zsh/zshrc running its own uncached compinit.
+skip_global_compinit=1

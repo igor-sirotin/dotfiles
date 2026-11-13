@@ -1,0 +1,7 @@
+{{- if eq .chezmoi.os "darwin" -}}
+true
+{{- else if output "sh" "-c" "getent passwd \"$1\" || true" "sh" .chezmoi.username | trim | hasSuffix "/zsh" -}}
+true
+{{- else -}}
+false
+{{- end -}}

@@ -1,0 +1,43 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/sh
+
+set -eu
+
+if ! command -v apt-get >/dev/null 2>&1; then
+    echo "install-packages: no apt-get here, install the packages by hand" >&2
+    exit 0
+fi
+
+sudo=
+[ "$(id -u)" -eq 0 ] || sudo=sudo
+
+$sudo apt-get update
+$sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    ca-certificates curl direnv git lsd tree vim vivid
+{{- if eq (includeTemplate "login-shell-is-zsh" .) "true" }} zsh-autosuggestions{{ end }}
+
+# Not in Ubuntu 24.04's apt. Checksums are the release's .sha256 files.
+starship_version=1.27.0
+case "$(uname -m)" in
+    x86_64)
+        starship_arch=x86_64
+        starship_sha256=10c8eb4cb3b761d9bf59ea828444c2dab36c900b7d69a69e08814b286969df89
+        ;;
+    aarch64 | arm64)
+        starship_arch=aarch64
+        starship_sha256=341f5cbf24699fa0b27ec88965ad25f862ea09e15d35a543fd6ffdff1d2aa00d
+        ;;
+    *)
+        echo "install-packages: no pinned starship build for $(uname -m)" >&2
+        exit 1
+        ;;
+esac
+
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+curl --proto '=https' --tlsv1.2 -fsSL -o "$tmp/starship.tar.gz" \
+    "https://github.com/starship/starship/releases/download/v$starship_version/starship-$starship_arch-unknown-linux-musl.tar.gz"
+echo "$starship_sha256  $tmp/starship.tar.gz" | sha256sum -c - >/dev/null
+tar -xzf "$tmp/starship.tar.gz" -C "$tmp" starship
+install -D -m 0755 "$tmp/starship" "$HOME/.local/bin/starship"
+{{ end -}}

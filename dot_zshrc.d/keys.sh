@@ -7,6 +7,12 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 bindkey "^[[A" up-line-or-beginning-search    # Up Arrow
 bindkey "^[[B" down-line-or-beginning-search  # Down Arrow
+# Ubuntu's /etc/zsh/zshrc enables application mode, which changes these sequences.
+zmodload zsh/terminfo
+[[ -n "${terminfo[kcuu1]}" ]] && bindkey "${terminfo[kcuu1]}" up-line-or-beginning-search
+[[ -n "${terminfo[kcud1]}" ]] && bindkey "${terminfo[kcud1]}" down-line-or-beginning-search
+[[ -n "${terminfo[khome]}" ]] && bindkey "${terminfo[khome]}" beginning-of-line
+[[ -n "${terminfo[kend]}" ]] && bindkey "${terminfo[kend]}" end-of-line
 
 # Option+Left/Right Arrow for IDE-Like Word Navigation
 function ide-word-move() {

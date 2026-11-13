@@ -16,7 +16,6 @@
       "if" : {
         "device" : {
           "vendorID" : "0x46d",
-          "serialNumber" : {{ keyring "linearmouse" "serialNumber" | quote }},
           "category" : "mouse",
           "productID" : "0xb023",
           "productName" : "MX Master 3"
