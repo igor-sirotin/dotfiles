@@ -11,9 +11,12 @@ chezmoi init --apply --verbose igor-sirotin
 Linux (tested on Ubuntu 24.04; needs `sudo` or root for `apt`, and without
 `apt` the packages are skipped):
 ```
-sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin
-~/.local/bin/chezmoi init --apply --verbose igor-sirotin
+curl -fsSL https://raw.githubusercontent.com/igor-sirotin/dotfiles/main/install.sh | sh
 ```
+[`install.sh`](install.sh) installs a pinned, checksummed chezmoi into
+`~/.local/bin` if there is none, then applies this repo. Running it again pulls
+and re-applies. Add `-s -- --zsh` after `sh` to also install zsh and make it the
+login shell, which gets the full zsh config.
 
 There are no secrets in this repo and none are needed to apply it. Per-project
 secrets live in `.envrc` files loaded by [direnv](https://direnv.net).
@@ -29,7 +32,8 @@ secrets live in `.envrc` files loaded by [direnv](https://direnv.net).
 On Linux the dotfiles follow the login shell rather than changing it. The bash
 files are always installed: `~/.bashrc` is left in place and gets one appended
 line that loads `~/.bashrc.d/`. The zsh files are added when zsh is the login
-shell. To switch a machine to the full zsh config:
+shell. To switch a machine to the full zsh config, run `install.sh --zsh`, or
+by hand:
 ```
 sudo apt-get install -y zsh
 sudo chsh -s "$(command -v zsh)" "$USER"
