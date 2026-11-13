@@ -7,4 +7,6 @@ set -eu
 
 curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/0.15.0/plug.vim
-vim -N -es -u ~/.vimrc -i NONE +"PlugInstall --sync" +qall </dev/null
+vim -N -es -u ~/.vimrc -i NONE +"PlugInstall --sync" \
+    +'if len(filter(values(g:plugs), "!isdirectory(v:val.dir)")) | cquit | endif' \
+    +qall </dev/null

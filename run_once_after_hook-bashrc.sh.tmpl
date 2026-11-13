@@ -1,0 +1,10 @@
+{{ if eq .chezmoi.os "linux" -}}
+#!/bin/sh
+
+set -eu
+
+marker='# dotfiles: load ~/.bashrc.d'
+if ! grep -qF "$marker" ~/.bashrc 2>/dev/null; then
+    printf '\n%s\ncase $- in *i*) for f in ~/.bashrc.d/*.sh; do [ -r "$f" ] && . "$f"; done; unset f ;; esac\n' "$marker" >>~/.bashrc
+fi
+{{ end -}}

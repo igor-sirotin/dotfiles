@@ -1,19 +1,16 @@
 README.md
 
-{{ if ne .chezmoi.os "darwin" }}
-.config/linearmouse
-.config/stats
-{{ end }}
-
-{{ if eq (includeTemplate "login-shell-is-zsh" .) "true" }}
-.bashrc
+{{ if eq .chezmoi.os "darwin" }}
 .bashrc.d
-{{ else }}
-.zshrc
-.zshrc.d
-{{ end }}
-
-{{ if or (ne .chezmoi.os "linux") (ne (includeTemplate "login-shell-is-zsh" .) "true") }}
 .zprofile
 .zshenv
+{{ else }}
+.config/linearmouse
+.config/stats
+{{   if ne (includeTemplate "login-shell-is-zsh" .) "true" }}
+.zshrc
+.zshrc.d
+.zprofile
+.zshenv
+{{   end }}
 {{ end }}

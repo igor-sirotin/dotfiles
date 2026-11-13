@@ -4,8 +4,8 @@
 set -eu
 
 if ! command -v apt-get >/dev/null 2>&1; then
-    echo "install-packages: only apt-based distributions are supported" >&2
-    exit 1
+    echo "install-packages: no apt-get here, install the packages by hand" >&2
+    exit 0
 fi
 
 sudo=

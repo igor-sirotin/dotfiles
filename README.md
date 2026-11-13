@@ -8,7 +8,8 @@ brew install chezmoi
 chezmoi init --apply --verbose igor-sirotin
 ```
 
-Linux (Debian/Ubuntu, tested on Ubuntu 24.04; needs `sudo` or root for `apt`):
+Linux (tested on Ubuntu 24.04; needs `sudo` or root for `apt`, and without
+`apt` the packages are skipped):
 ```
 sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin
 ~/.local/bin/chezmoi init --apply --verbose igor-sirotin
@@ -25,9 +26,10 @@ secrets live in `.envrc` files loaded by [direnv](https://direnv.net).
 | zsh config (history, key bindings, completions, autosuggestions) | ✓ | only if zsh is the login shell |
 | GUI apps and their settings (LinearMouse, Stats, AltTab, MonitorControl, fonts) | ✓ | — |
 
-On Linux the dotfiles follow the login shell rather than changing it. With bash
-they leave `~/.bashrc` in place and append one line that loads `~/.bashrc.d/`.
-To switch a machine to the full zsh config:
+On Linux the dotfiles follow the login shell rather than changing it. The bash
+files are always installed: `~/.bashrc` is left in place and gets one appended
+line that loads `~/.bashrc.d/`. The zsh files are added when zsh is the login
+shell. To switch a machine to the full zsh config:
 ```
 sudo apt-get install -y zsh
 sudo chsh -s "$(command -v zsh)" "$USER"
