@@ -20,7 +20,7 @@ export PATH="$HOME/.local/logosctl/bin:$PATH"
 export PATH="$HOME/.local/lgpm/bin:$PATH"
 export PATH="$HOME/.local/lgpd/bin:$PATH"
 export PATH="$HOME/.opencode/bin:$PATH"
-export PATH="$HOME/Library/Python/3.x/bin:$PATH"
+export PATH="$HOME/Library/Python/3.9/bin:$PATH"
 
 # Nix
 if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
